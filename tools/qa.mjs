@@ -97,6 +97,15 @@ await ip.hover('.idf__deptlink[data-code="93"]');
 await ip.waitForTimeout(250);
 const panel = await ip.textContent('[data-idf-panel]');
 if (!/Seine-Saint-Denis/.test(panel || '')) problems.push('carte interactive : le panneau ne se met pas à jour au survol');
+// un premier clic sélectionne sans quitter la page, le second ouvre la page
+await ip.click('.idf__deptlink[data-code="94"]');
+await ip.waitForTimeout(250);
+if (!/Val-de-Marne/.test((await ip.textContent('[data-idf-panel]')) || '')) problems.push('carte interactive : le clic ne sélectionne pas le département');
+if (!/punaises-de-lit-ile-de-france/.test(ip.url())) problems.push('carte interactive : le premier clic quitte la page');
+await ip.click('.idf__deptlink[data-code="94"]');
+await ip.waitForTimeout(400);
+if (!/punaises-de-lit-val-de-marne-94/.test(ip.url())) problems.push('carte interactive : le second clic n’ouvre pas la page du département');
+await ip.goto('http://localhost:4321/punaises-de-lit-ile-de-france', { waitUntil: 'load' });
 const href = await ip.getAttribute('.idf__deptlink[data-code="93"]', 'href');
 if (href !== '/punaises-de-lit-seine-saint-denis-93') problems.push('carte interactive : lien départemental incorrect (' + href + ')');
 await ip.keyboard.press('Tab');

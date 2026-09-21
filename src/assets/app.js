@@ -68,6 +68,7 @@
         '</ul>' +
         '<a class="btn btn--primary btn--sm" href="/' + d.slug + '">Voir la page ' + d.code + '</a>';
     };
+    var clicked = null;
     var select = function (el) {
       map.querySelectorAll('.idf__deptlink').forEach(function (p) {
         p.classList.toggle('is-active', p === el);
@@ -75,10 +76,23 @@
       render(el.getAttribute('data-code'));
     };
     map.querySelectorAll('.idf__deptlink').forEach(function (p) {
-      // Le lien reste fonctionnel sans JavaScript : on enrichit seulement
-      // le panneau au survol et au focus.
+      // Sans JavaScript, chaque département reste un lien vers sa page.
+      // Avec JavaScript : survol et focus mettent le panneau à jour ; un
+      // premier clic affiche le département sélectionné, un second ouvre
+      // sa page (le bouton du panneau y mène également).
       p.addEventListener('mouseenter', function () { select(p); });
       p.addEventListener('focus', function () { select(p); });
+      p.addEventListener('click', function (e) {
+        // Le survol ayant pu pré-sélectionner le département, on mémorise
+        // le dernier clic plutôt que l'état visuel.
+        if (clicked === p) return;
+        clicked = p;
+        e.preventDefault();
+        select(p);
+        if (panel && window.matchMedia('(max-width: 860px)').matches) {
+          panel.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+      });
     });
     var initial = map.querySelector('.idf__deptlink[data-code="75"]') || map.querySelector('.idf__deptlink');
     if (initial) { initial.classList.add('is-active'); render(initial.getAttribute('data-code')); }
