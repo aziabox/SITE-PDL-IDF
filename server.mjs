@@ -1,10 +1,13 @@
-/* Serveur de previsualisation local : node server.mjs [port] */
+/* Serveur HTTP du site statique.
+   Local     : node server.mjs [port]
+   Hebergeur : npm start  (PORT et HOST sont lus depuis l'environnement) */
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 
 const DIST = path.join(process.cwd(), 'dist');
-const PORT = Number(process.argv[2] || 4321);
+const PORT = Number(process.argv[2] || process.env.PORT || 4321);
+const HOST = process.env.HOST || '0.0.0.0';
 const TYPES = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png',
@@ -25,7 +28,14 @@ http
       res.end(fs.existsSync(nf) ? fs.readFileSync(nf) : 'not found');
       return;
     }
-    res.writeHead(200, { 'content-type': TYPES[path.extname(file)] || 'application/octet-stream' });
+    const ext = path.extname(file);
+    const immutable = /^\/assets\//.test(clean) && ext !== '.html';
+    res.writeHead(200, {
+      'content-type': TYPES[ext] || 'application/octet-stream',
+      'cache-control': immutable ? 'public, max-age=86400' : 'public, max-age=300',
+      'x-content-type-options': 'nosniff',
+      'referrer-policy': 'strict-origin-when-cross-origin',
+    });
     res.end(fs.readFileSync(file));
   })
-  .listen(PORT, () => console.log(`http://localhost:${PORT}`));
+  .listen(PORT, HOST, () => console.log(`Site servi sur http://${HOST}:${PORT}`));

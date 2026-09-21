@@ -18,8 +18,35 @@ npm run qa        # contrôles navigateur (nécessite le serveur lancé + playwr
 npm run check     # build + audit + QA navigateur
 ```
 
-`npm run qa` suppose `node server.mjs` déjà lancé et Playwright installé
-(`npm i -D playwright`, Chromium fourni par l’environnement).
+`npm run qa` suppose `node server.mjs` déjà lancé et Playwright installé à la
+demande (`npm i -D playwright`). Playwright n’est **pas** une dépendance du
+projet : l’installation chez l’hébergeur doit rester vide pour éviter le
+téléchargement de navigateurs.
+
+## Déploiement
+
+Le projet n’a **aucune dépendance** : `npm ci` n’installe rien, le build est
+pur Node.
+
+### Hébergeur Node (Render, Railway, Clever Cloud, Hostinger…)
+
+| Réglage | Valeur |
+| --- | --- |
+| Commande d’installation | `npm ci` (ou rien) |
+| Commande de build | `npm run build` (optionnelle, `npm start` la relance) |
+| Commande de démarrage | `npm start` |
+| Port | lu dans la variable d’environnement `PORT` (défaut 4321) |
+| Version de Node | 22 (`.nvmrc`), minimum 20 |
+
+`npm start` construit `dist/` puis sert le site sur `PORT` / `HOST`
+(`0.0.0.0` par défaut). Un `Procfile` (`web: npm start`) est fourni pour les
+plateformes qui le lisent.
+
+### Hébergement purement statique
+
+`npm run build` produit `dist/`, directement publiable sur n’importe quel
+hébergeur statique. Prévoir `dist/404.html` comme page d’erreur et servir les
+URL sans extension (chaque page est un `index.html` dans son dossier).
 
 ---
 
