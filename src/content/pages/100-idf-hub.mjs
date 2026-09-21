@@ -3,7 +3,7 @@ import {
   section, pageHead, quick, faq, ctaBand, checklist, callout, linkGrid,
   btnRow, btnPrimary, btnPhone, esc, departments,
 } from '../../lib/components.mjs';
-import { idfMap } from '../../lib/illustrations.mjs';
+import { idfMap, idfPanel } from '../../lib/illustrations.mjs';
 import { service } from '../../lib/schema.mjs';
 import { CITIES } from '../../lib/cities.mjs';
 
@@ -55,7 +55,7 @@ ${section({
   html: `
 <div class="idf">
   <div class="idf__mapwrap">${idfMap()}<p class="idf__hint">Carte schématique des huit départements — survolez ou sélectionnez un département pour afficher les services disponibles.</p></div>
-  <div class="idf__panel" data-idf-panel></div>
+  ${idfPanel()}
 </div>`,
 })}
 

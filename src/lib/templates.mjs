@@ -12,7 +12,7 @@ import { service } from './schema.mjs';
 export function contentPage({
   url, title, description, h1, eyebrow, lead, crumbs, media,
   quick, blocks = [], aside, points, pointsTitle, faq: faqItems = [],
-  related = [], relatedTitle = 'Pages liées', ctaTitle, ctaText, tag = 'page',
+  related = [], relatedTitle = 'Pages liées', ctaTitle, ctaText, ctaPrimary, tag = 'page',
   schema = [], priority = 0.6, serviceName, extra = '',
 }) {
   const headings = blocks.map((b) => b.title);
@@ -48,7 +48,7 @@ ${faqItems.length ? section({ variant: 'section--white', eyebrow: 'FAQ', title: 
 
 ${related.length ? relatedSection({ title: relatedTitle, variant: 'section--sand', links: related }) : ''}
 
-${ctaBand({ title: ctaTitle, text: ctaText, tag })}`;
+${ctaBand({ title: ctaTitle, text: ctaText, tag, ...(ctaPrimary ? { primary: ctaPrimary } : {}) })}`;
 
   return definePage({
     url,

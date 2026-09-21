@@ -154,7 +154,7 @@ ${relatedSection({
   ],
 })}
 
-${ctaBand({ title: 'Quelle méthode pour votre situation ?', text: 'Le diagnostic détermine ce qui est réellement applicable chez vous. Nous vous expliquons les options, leurs limites et ce qu’elles impliquent.', tag: 'methodes' })}`;
+${ctaBand({ title: 'Quelle méthode pour votre situation ?', text: 'Le diagnostic détermine ce qui est réellement applicable chez vous. Nous vous expliquons les options, leurs limites et ce qu’elles impliquent.', primary: { label: 'Parler à un expert', href: '/diagnostic' }, tag: 'methodes' })}`;
 
   return definePage({
     url: '/methodes-traitement-punaises-de-lit',

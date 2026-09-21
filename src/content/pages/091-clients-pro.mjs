@@ -218,6 +218,7 @@ Nous fonctionnons avec un interlocuteur unique sur toute la durée de l’opéra
         { label: 'Traitement thermique', href: '/traitement-thermique-punaises-de-lit' },
         { label: 'Demander un diagnostic', href: '/diagnostic' },
       ],
+      ctaPrimary: { label: 'Obtenir un devis pour la copropriété', href: '/diagnostic' },
       ctaTitle: 'Une copropriété concernée sur plusieurs lots ?',
       ctaText: 'Nous établissons la cartographie et le plan d’intervention qui permettent au conseil syndical de décider sur des éléments objectifs.',
     }),

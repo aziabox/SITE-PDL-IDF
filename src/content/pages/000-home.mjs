@@ -3,7 +3,7 @@ import {
   section, cardGrid, checklist, steps, quick, callout, faq, ctaBand, figure,
   linkGrid, btnRow, btnPrimary, btnPhone, pills, statLine, icon, esc, departments,
 } from '../../lib/components.mjs';
-import { heroPlan, idfMap, hugetriPanel, dogScene, processStrip } from '../../lib/illustrations.mjs';
+import { heroPlan, idfMap, idfPanel, hugetriPanel, dogScene, processStrip } from '../../lib/illustrations.mjs';
 import { photo } from '../../lib/photo.mjs';
 import { organization, service } from '../../lib/schema.mjs';
 import { postCard } from '../../lib/blog.mjs';
@@ -216,7 +216,7 @@ ${steps([
     html: `
 <div class="idf">
   <div class="idf__mapwrap">${idfMap()}<p class="idf__hint">Carte schématique des huit départements — survolez ou sélectionnez un département pour afficher les services disponibles.</p></div>
-  <div class="idf__panel" data-idf-panel></div>
+  ${idfPanel()}
 </div>
 <ul class="idf__list">
   <li><a href="/punaises-de-lit-ile-de-france">Toute l’Île-de-France</a></li>

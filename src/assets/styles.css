@@ -540,11 +540,16 @@ strong { font-weight: 600; color: var(--c-deep); }
 .idf { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); gap: clamp(24px, 3vw, 44px); align-items: start; }
 .idf__mapwrap { background: #fff; border: 1px solid var(--c-line-soft); border-radius: var(--r); padding: clamp(14px, 2vw, 24px); }
 .idf__map { width: 100%; height: auto; display: block; }
-.idf__dept { fill: #eaf3f7; stroke: #fff; stroke-width: 2; cursor: pointer; transition: fill 0.18s ease; outline: none; }
-.idf__dept:hover, .idf__dept:focus-visible, .idf__dept.is-active { fill: var(--c-mid); }
-.idf__dept:focus-visible { stroke: var(--c-deep); stroke-width: 2.5; }
-.idf__label { font-family: var(--ff-title); font-size: 15px; font-weight: 700; fill: var(--c-deep); pointer-events: none; }
-.idf__dept:hover + .idf__label, .idf__dept.is-active + .idf__label { fill: #fff; }
+.idf__deptlink { cursor: pointer; outline: none; }
+.idf__dept { fill: #eaf3f7; stroke: #fff; stroke-width: 2; transition: fill 0.18s ease; }
+.idf__deptlink:hover .idf__dept,
+.idf__deptlink:focus-visible .idf__dept,
+.idf__deptlink.is-active .idf__dept { fill: var(--c-mid); }
+.idf__deptlink:focus-visible .idf__dept { stroke: var(--c-deep); stroke-width: 3; }
+.idf__label { font-family: var(--ff-title); font-size: 15px; font-weight: 700; fill: var(--c-deep); pointer-events: none; transition: fill 0.18s ease; }
+.idf__deptlink:hover .idf__label,
+.idf__deptlink:focus-visible .idf__label,
+.idf__deptlink.is-active .idf__label { fill: #fff; }
 .idf__panel { background: #fff; border: 1px solid var(--c-line); border-radius: var(--r); padding: clamp(20px, 2.4vw, 28px); position: sticky; top: 96px; }
 .idf__panel .eyebrow { margin-bottom: 10px; }
 .idf__panel h3 { font-size: 1.32rem; margin-bottom: 10px; }

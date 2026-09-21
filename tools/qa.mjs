@@ -93,10 +93,15 @@ if (!drawerClosed) problems.push('menu mobile : ne se ferme pas avec Échap');
 
 await ip.setViewportSize({ width: 1280, height: 900 });
 await ip.goto('http://localhost:4321/punaises-de-lit-ile-de-france', { waitUntil: 'load' });
-await ip.click('.idf__dept[data-code="93"]');
-await ip.waitForTimeout(200);
+await ip.hover('.idf__deptlink[data-code="93"]');
+await ip.waitForTimeout(250);
 const panel = await ip.textContent('[data-idf-panel]');
-if (!/Seine-Saint-Denis/.test(panel || '')) problems.push('carte interactive : le panneau ne se met pas à jour');
+if (!/Seine-Saint-Denis/.test(panel || '')) problems.push('carte interactive : le panneau ne se met pas à jour au survol');
+const href = await ip.getAttribute('.idf__deptlink[data-code="93"]', 'href');
+if (href !== '/punaises-de-lit-seine-saint-denis-93') problems.push('carte interactive : lien départemental incorrect (' + href + ')');
+await ip.keyboard.press('Tab');
+const focusOk = await ip.evaluate(() => !!document.activeElement && document.activeElement !== document.body);
+if (!focusOk) problems.push('carte interactive : navigation clavier impossible');
 
 await ip.goto('http://localhost:4321/diagnostic', { waitUntil: 'load' });
 await ip.click('button[type="submit"]');

@@ -98,6 +98,7 @@ Un signalement précoce au syndic ou au gestionnaire ne met personne en cause : 
         { label: 'Punaises de lit à Paris (article)', href: '/blog/punaises-de-lit-paris' },
         { label: 'Toute l’Île-de-France', href: '/punaises-de-lit-ile-de-france' },
       ],
+      ctaPrimary: { label: 'Être rappelé par un spécialiste', href: '/diagnostic' },
       ctaTitle: 'Un logement parisien concerné ?',
       ctaText: 'Nous évaluons l’étendue réelle, y compris le risque lié aux logements mitoyens, avant de proposer un traitement.',
     }),

@@ -69,21 +69,18 @@
         '<a class="btn btn--primary btn--sm" href="/' + d.slug + '">Voir la page ' + d.code + '</a>';
     };
     var select = function (el) {
-      map.querySelectorAll('.idf__dept').forEach(function (p) {
+      map.querySelectorAll('.idf__deptlink').forEach(function (p) {
         p.classList.toggle('is-active', p === el);
-        p.setAttribute('aria-pressed', p === el ? 'true' : 'false');
       });
       render(el.getAttribute('data-code'));
     };
-    map.querySelectorAll('.idf__dept').forEach(function (p) {
-      p.addEventListener('click', function () { select(p); });
-      p.addEventListener('mouseenter', function () { render(p.getAttribute('data-code')); });
+    map.querySelectorAll('.idf__deptlink').forEach(function (p) {
+      // Le lien reste fonctionnel sans JavaScript : on enrichit seulement
+      // le panneau au survol et au focus.
+      p.addEventListener('mouseenter', function () { select(p); });
       p.addEventListener('focus', function () { select(p); });
-      p.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(p); }
-      });
     });
-    var initial = map.querySelector('.idf__dept[data-code="75"]') || map.querySelector('.idf__dept');
+    var initial = map.querySelector('.idf__deptlink[data-code="75"]') || map.querySelector('.idf__deptlink');
     if (initial) { initial.classList.add('is-active'); render(initial.getAttribute('data-code')); }
   }
 

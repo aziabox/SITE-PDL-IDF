@@ -221,6 +221,7 @@ Si un remplacement est nécessaire, il se fait après le traitement, une fois la
         { label: 'Traitement thermique', href: '/traitement-thermique-punaises-de-lit' },
         { label: 'Méthodes professionnelles', href: '/methodes-traitement-punaises-de-lit' },
       ],
+      ctaPrimary: { label: 'Parler à un expert', href: '/diagnostic' },
       ctaTitle: 'Avant de jeter votre matelas, faites-le examiner',
       ctaText: 'Un diagnostic dit si le matelas peut être traité et, surtout, où se trouve réellement le reste de l’infestation.',
     }),

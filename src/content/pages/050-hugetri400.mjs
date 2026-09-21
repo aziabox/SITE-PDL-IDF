@@ -120,7 +120,7 @@ ${relatedSection({
   ],
 })}
 
-${ctaBand({ title: 'Une question sur le traitement thermique ?', text: 'Nous vous expliquons ce qui est réellement applicable à votre logement, sans vendre une méthode avant de l’avoir vu.', tag: 'hugetri' })}`;
+${ctaBand({ title: 'Une question sur le traitement thermique ?', text: 'Nous vous expliquons ce qui est réellement applicable à votre logement, sans vendre une méthode avant de l’avoir vu.', primary: { label: 'Parler à un technicien', href: '/diagnostic' }, tag: 'hugetri' })}`;
 
   return definePage({
     url: '/hugetri400',

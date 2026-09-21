@@ -268,9 +268,12 @@ export const idfMap = () => `
      )}'>
   ${departments
     .map(
-      (d) => `<path class="idf__dept" d="${DEPT_PATHS[d.code]}" data-code="${d.code}" role="button" tabindex="0"
-      aria-label="Punaises de lit ${d.article} ${esc(d.name)} (${d.code})" aria-pressed="false"><title>${esc(d.name)} (${d.code})</title></path>
-    <text class="idf__label" x="${DEPT_LABELS[d.code][0]}" y="${DEPT_LABELS[d.code][1]}" text-anchor="middle">${d.code}</text>`
+      (d) => `<a class="idf__deptlink" href="/${d.slug}" data-code="${d.code}"
+      aria-label="Punaises de lit ${d.article} ${esc(d.name)} (${d.code})">
+      <title>${esc(d.name)} (${d.code}) — voir la page</title>
+      <path class="idf__dept" d="${DEPT_PATHS[d.code]}"/>
+      <text class="idf__label" x="${DEPT_LABELS[d.code][0]}" y="${DEPT_LABELS[d.code][1]}" text-anchor="middle">${d.code}</text>
+    </a>`
     )
     .join('\n  ')}
 </svg>`;
@@ -324,3 +327,22 @@ export const processStrip = (labels) => `
     .join('')}
   <defs><marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 1 L9 5 L0 9 z" fill="#3E7185"/></marker></defs>
 </svg>`;
+
+/* --- Panneau departemental (rendu serveur, enrichi ensuite par le script) - */
+export const idfPanel = (code = '75') => {
+  const d = departments.find((x) => x.code === code) || departments[0];
+  const li = (label) =>
+    `<li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.6 4.4 4.4L19 7.4"/></svg>${label}</li>`;
+  return `<div class="idf__panel" data-idf-panel aria-live="polite">
+  <p class="eyebrow">Département ${d.code}</p>
+  <h3>Punaises de lit ${d.article} ${esc(d.name)}</h3>
+  <p>Interventions ${d.article} ${esc(d.name)} : diagnostic, détection canine et traitement adapté aux ${esc(d.habitat)}.</p>
+  <ul class="idf__services">
+    ${li('Diagnostic et inspection')}
+    ${li('Détection canine')}
+    ${li('Traitement thermique')}
+    ${li('Traitements professionnels adaptés')}
+  </ul>
+  <a class="btn btn--primary btn--sm" href="/${d.slug}">Voir la page ${d.code}</a>
+</div>`;
+};
