@@ -1,0 +1,21 @@
+{
+  "name": "site-pdl-idf",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Site specialiste punaises de lit — Ile-de-France (detection canine, traitement thermique HUGETRI400)",
+  "scripts": {
+    "build": "node build.mjs",
+    "images": "node tools/genimages.mjs",
+    "serve": "node build.mjs && node server.mjs",
+    "audit": "node build.mjs && node audit.mjs",
+    "qa": "node tools/qa.mjs",
+    "check": "node build.mjs && node audit.mjs && node tools/qa.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
+  }
+}
