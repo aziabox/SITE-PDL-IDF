@@ -104,6 +104,9 @@ ${section({
     title: 'Mentions légales — Punaises de lit Île-de-France',
     description:
       'Mentions légales du site : éditeur, hébergeur, propriété intellectuelle et responsabilité.',
+    // Page accessible depuis le pied de page mais retirée des résultats de
+    // recherche, pour limiter l'exposition des données d'identité.
+    noindex: true,
     priority: 0.2,
     changefreq: 'yearly',
     crumbs: [{ label: 'Mentions légales' }],
@@ -165,6 +168,8 @@ ${section({
     title: 'Politique de confidentialité — Punaises de lit Île-de-France',
     description:
       'Traitement des données personnelles collectées via le formulaire de demande de diagnostic : finalité, conservation, destinataires et droits des personnes.',
+    // Contient les mêmes données d'identité que les mentions légales.
+    noindex: true,
     priority: 0.2,
     changefreq: 'yearly',
     crumbs: [{ label: 'Politique de confidentialité' }],

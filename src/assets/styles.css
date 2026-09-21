@@ -889,5 +889,3 @@ h1, h2, h3, h4, p, li, .btn, .pill, .card, .flow__step b, .stat-line b {
 }
 
 .idf__credit { display: block; margin-top: 4px; font-size: 0.75rem; color: var(--c-muted); opacity: 0.85; }
-
-.footer__legal { display: inline-block; margin-top: 6px; font-size: 0.78rem; color: rgba(255, 255, 255, 0.45); }

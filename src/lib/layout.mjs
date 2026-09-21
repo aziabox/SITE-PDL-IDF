@@ -1,4 +1,4 @@
-import { site, nav, cta, legal } from './site.mjs';
+import { site, nav, cta } from './site.mjs';
 import { esc, attr, icon, join } from './html.mjs';
 
 export const brandMark = (size = 40) => `
@@ -128,8 +128,7 @@ const footer = () => `
       </div>
     </div>
     <div class="footer__bottom">
-      <p>© ${new Date().getFullYear()} ${esc(site.name)} — ${esc(site.areaServed)}<br>
-        <span class="footer__legal">${esc(legal.denomination)} · ${esc(legal.forme)} · SIREN ${esc(legal.siren)} · ${esc(legal.adresse.ville)} (92)</span></p>
+      <p>© ${new Date().getFullYear()} ${esc(site.name)} — ${esc(site.areaServed)}</p>
       <ul>
         <li><a href="/diagnostic">Demander un diagnostic</a></li>
         <li><a href="/mentions-legales">Mentions légales</a></li>

@@ -1,4 +1,4 @@
-import { site, departments, legal } from './site.mjs';
+import { site, departments } from './site.mjs';
 
 // Regle du projet : aucune donnee non verifiee dans les donnees structurees.
 // Pas de aggregateRating, review, priceRange, address postale, openingHours,
@@ -11,18 +11,6 @@ export const organization = () => ({
   '@type': ['Organization', 'LocalBusiness'],
   '@id': ORG_ID,
   name: site.nameFull,
-  legalName: legal.denomination,
-  identifier: [
-    { '@type': 'PropertyValue', propertyID: 'SIREN', value: legal.sirenRaw },
-    { '@type': 'PropertyValue', propertyID: 'SIRET', value: legal.siret.replace(/\s/g, '') },
-  ],
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: legal.adresse.rue,
-    postalCode: legal.adresse.codePostal,
-    addressLocality: legal.adresse.ville,
-    addressCountry: 'FR',
-  },
   description:
     'Entreprise familiale spécialisée depuis plus de 10 ans dans la détection et le traitement des punaises de lit en Île-de-France : diagnostic, détection canine, traitement thermique et méthodes professionnelles.',
   url: site.origin + '/',
