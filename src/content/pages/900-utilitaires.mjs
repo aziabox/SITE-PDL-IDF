@@ -2,6 +2,7 @@ import { definePage } from '../../lib/page.mjs';
 import {
   section, pageHead, linkGrid, callout, btnRow, btnPrimary, btnPhone, esc, departments, site,
 } from '../../lib/components.mjs';
+import { legal, host } from '../../lib/site.mjs';
 import { CITIES } from '../../lib/cities.mjs';
 
 export default function () {
@@ -112,47 +113,48 @@ ${section({
   variant: 'section--white',
   wrap: 'wrap--narrow',
   html: `
-${callout({
-  icon: 'alert',
-  variant: 'sand',
-  title: 'Informations à compléter avant mise en ligne',
-  text: `Les champs signalés ci-dessous doivent être renseignés avec les informations officielles de l’entreprise. Aucune donnée n’a été inventée : raison sociale, forme juridique, numéro d’immatriculation, adresse du siège, nom du directeur de publication, coordonnées et informations d’hébergement doivent être fournis par l’entreprise.
-
-Tant qu’ils ne le sont pas, cette page reste incomplète et le site ne doit pas être publié en production.`,
-})}
 <div class="prose">
   <h2>Éditeur du site</h2>
+  <p>Le présent site est édité par <strong>${esc(legal.exploitant)}</strong>, exerçant sous la dénomination <strong>${esc(legal.denomination)}</strong>, ${esc(legal.forme)}, et exploitant l’activité de détection et de traitement des punaises de lit présentée sur ce site sous le nom commercial « ${esc(site.name)} ».</p>
   <ul>
-    <li><strong>Raison sociale</strong> : à compléter</li>
-    <li><strong>Forme juridique</strong> : à compléter</li>
-    <li><strong>Capital social</strong> : à compléter</li>
-    <li><strong>Siège social</strong> : à compléter</li>
-    <li><strong>Numéro SIREN / SIRET</strong> : à compléter</li>
-    <li><strong>Numéro de TVA intracommunautaire</strong> : à compléter</li>
-    <li><strong>Directeur de la publication</strong> : à compléter</li>
-    <li><strong>Téléphone</strong> : ${esc(site.phoneDisplay)}</li>
-    <li><strong>E-mail de contact</strong> : à compléter</li>
+    <li><strong>Dénomination</strong> : ${esc(legal.denomination)}</li>
+    <li><strong>Forme juridique</strong> : ${esc(legal.forme)}</li>
+    <li><strong>Siège</strong> : ${esc(legal.adresse.complet)}, ${esc(legal.adresse.pays)}</li>
+    <li><strong>SIREN</strong> : ${esc(legal.siren)}</li>
+    <li><strong>SIRET (siège)</strong> : ${esc(legal.siret)}</li>
+    <li><strong>Registre du commerce et des sociétés</strong> : ${esc(legal.rcs)}, immatriculation le ${esc(legal.immatriculationRcs)} au greffe de ${esc(legal.greffe)}</li>
+    <li><strong>Registre national des entreprises</strong> : immatriculation le ${esc(legal.immatriculationRne)}</li>
+    <li><strong>Code NAF / APE</strong> : ${esc(legal.naf)} — ${esc(legal.nafLibelle)}</li>
+    <li><strong>Téléphone</strong> : <a href="tel:${site.phoneHref}">${esc(site.phoneDisplay)}</a></li>
+    <li><strong>Directeur de la publication</strong> : ${esc(legal.directeurPublication)}</li>
   </ul>
 
-  <h2>Hébergeur</h2>
+  <h2>Hébergement</h2>
+  <p>Le site est hébergé par :</p>
   <ul>
-    <li><strong>Dénomination</strong> : à compléter</li>
-    <li><strong>Adresse</strong> : à compléter</li>
-    <li><strong>Téléphone</strong> : à compléter</li>
+    <li><strong>${esc(host.nom)}</strong></li>
+    <li>${esc(host.adresse)}</li>
+    <li>Numéro d’enregistrement : ${esc(host.registre)}</li>
+    <li><a href="${host.site}" rel="noopener nofollow" target="_blank">${esc(host.site.replace('https://', ''))}</a></li>
   </ul>
 
   <h2>Activité</h2>
-  <p>Le site présente une activité de détection et de traitement des punaises de lit en Île-de-France. Les certifications, agréments, qualifications professionnelles et assurances éventuellement détenus par l’entreprise seront mentionnés ici et sur les pages concernées dès que les justificatifs correspondants auront été fournis. Aucune mention de ce type n’est publiée sans pièce justificative.</p>
+  <p>L’entreprise exerce une activité de désinfection, désinsectisation et dératisation (code NAF ${esc(legal.naf)}), spécialisée sur ce site dans la détection et le traitement des punaises de lit en Île-de-France.</p>
+  <p>Les qualifications, certifications et attestations d’assurance détenues par l’entreprise sont communiquées sur demande dans le cadre d’une intervention. Aucune mention de ce type n’est publiée sur ce site sans pièce justificative correspondante.</p>
 
   <h2>Propriété intellectuelle</h2>
   <p>L’ensemble des contenus de ce site — textes, illustrations, schémas, mise en page et code — est protégé par le droit de la propriété intellectuelle. Toute reproduction, représentation ou adaptation, totale ou partielle, sans autorisation écrite préalable est interdite.</p>
+  <p>Le fond de carte des départements d’Île-de-France est établi à partir des contours administratifs IGN / INSEE diffusés sous Licence Ouverte.</p>
 
   <h2>Responsabilité</h2>
   <p>Les informations publiées sur ce site sont fournies à titre informatif. Elles décrivent des méthodes professionnelles et des constats de terrain, mais ne constituent ni un diagnostic à distance, ni un engagement de résultat. Seule une intervention sur place permet d’évaluer une situation particulière.</p>
   <p>Les liens vers des sites tiers éventuellement présents n’engagent pas la responsabilité de l’éditeur quant à leur contenu.</p>
 
+  <h2>Données personnelles</h2>
+  <p>Le traitement des données transmises via le formulaire de demande de diagnostic est décrit dans la <a href="/politique-de-confidentialite">politique de confidentialité</a>.</p>
+
   <h2>Droit applicable</h2>
-  <p>Le présent site est soumis au droit français.</p>
+  <p>Le présent site est soumis au droit français. En cas de litige, et à défaut de résolution amiable, les tribunaux français sont compétents.</p>
 </div>`,
 })}`,
   });
@@ -173,30 +175,38 @@ ${section({
   wrap: 'wrap--narrow',
   html: `
 <div class="prose">
+  <h2>Responsable du traitement</h2>
+  <p>Le responsable du traitement des données collectées sur ce site est <strong>${esc(legal.exploitant)}</strong> (${esc(legal.denomination)}, ${esc(legal.forme)}), dont le siège est situé ${esc(legal.adresse.complet)}, SIREN ${esc(legal.siren)}.</p>
+  <p>Contact : <a href="tel:${site.phoneHref}">${esc(site.phoneDisplay)}</a> ou par courrier à l’adresse du siège.</p>
+
   <h2>Quelles données sont collectées</h2>
   <p>Le site ne collecte des données que lorsque vous les transmettez volontairement, via le formulaire de demande de diagnostic ou par téléphone : nom, numéro de téléphone, adresse e-mail, commune, et les éléments que vous choisissez de décrire (type de logement, surface, situation constatée, message libre).</p>
+  <p>Aucun compte utilisateur, aucun profilage et aucune collecte automatique de données de navigation ne sont mis en œuvre par le site lui-même.</p>
 
   <h2>Pourquoi elles sont collectées</h2>
   <p>Ces données servent uniquement à traiter votre demande : vous rappeler, évaluer la situation, organiser un diagnostic ou une intervention, et assurer le suivi. Elles ne sont ni revendues, ni louées, ni utilisées à des fins de prospection pour des tiers.</p>
+  <p><strong>Base légale</strong> : votre consentement, recueilli lors de l’envoi du formulaire, puis, le cas échéant, l’exécution de mesures précontractuelles et du contrat d’intervention, ainsi que le respect des obligations légales de conservation des documents commerciaux et comptables.</p>
 
   <h2>Durée de conservation</h2>
-  <p>Les demandes sans suite sont conservées le temps nécessaire au traitement de la demande puis supprimées. Les dossiers ayant donné lieu à une intervention sont conservés pendant la durée légale applicable aux documents commerciaux et comptables.</p>
+  <p>Les demandes sans suite sont conservées le temps nécessaire à leur traitement, puis supprimées. Les dossiers ayant donné lieu à une intervention sont conservés pendant la durée légale applicable aux documents commerciaux et comptables.</p>
 
   <h2>Destinataires</h2>
-  <p>Les données sont accessibles aux seules personnes de l’entreprise en charge du traitement des demandes et des interventions. Les éventuels prestataires techniques (hébergement, messagerie) n’y accèdent que dans le cadre strict de leurs prestations.</p>
+  <p>Les données sont accessibles aux seules personnes de l’entreprise en charge du traitement des demandes et des interventions. Les prestataires techniques n’y accèdent que dans le cadre strict de leurs prestations : l’hébergement du site est assuré par ${esc(host.nom)} (${esc(host.adresse)}). Aucun transfert de données n’est opéré vers un pays tiers en dehors de ce cadre.</p>
 
   <h2>Vos droits</h2>
-  <p>Conformément à la réglementation applicable en matière de protection des données personnelles, vous disposez d’un droit d’accès, de rectification, d’effacement, de limitation et d’opposition concernant vos données. Vous pouvez exercer ces droits en nous contactant au ${esc(site.phoneDisplay)} ou à l’adresse e-mail indiquée dans les mentions légales.</p>
-  <p>Vous disposez également du droit d’introduire une réclamation auprès de l’autorité de contrôle compétente.</p>
+  <p>Conformément au Règlement général sur la protection des données et à la loi « Informatique et Libertés », vous disposez d’un droit d’accès, de rectification, d’effacement, de limitation et d’opposition concernant vos données, ainsi que d’un droit à la portabilité et du droit de retirer votre consentement à tout moment.</p>
+  <p>Vous pouvez exercer ces droits en nous contactant au <a href="tel:${site.phoneHref}">${esc(site.phoneDisplay)}</a> ou par courrier à : ${esc(legal.denomination)}, ${esc(legal.adresse.complet)}.</p>
+  <p>Vous disposez également du droit d’introduire une réclamation auprès de la Commission nationale de l’informatique et des libertés (CNIL), 3 place de Fontenoy, TSA 80715, 75334 Paris Cedex 07.</p>
 
-  <h2>Mesures techniques</h2>
-  <p>Le site est un site statique : il ne comporte ni espace client, ni base de données de visiteurs. Aucune donnée n’est stockée dans votre navigateur par le site lui-même en dehors des mécanismes techniques strictement nécessaires à son affichage.</p>
+  <h2>Sécurité et mesures techniques</h2>
+  <p>Le site est un site statique : il ne comporte ni espace client, ni base de données de visiteurs. Il est diffusé en HTTPS. Aucune donnée n’est stockée dans votre navigateur par le site en dehors des mécanismes techniques strictement nécessaires à son affichage.</p>
 
   <h2>Cookies et mesure d’audience</h2>
-  <p>En l’état, le site ne dépose aucun cookie publicitaire ni traceur de mesure d’audience. Si un outil de mesure devait être ajouté ultérieurement, cette page serait mise à jour et un mécanisme de recueil du consentement serait mis en place avant tout dépôt de traceur soumis à consentement.</p>
+  <p>En l’état, le site ne dépose aucun cookie publicitaire ni traceur de mesure d’audience. Les polices de caractères sont appelées auprès du service Google Fonts, ce qui implique une connexion de votre navigateur à ce service lors du chargement des pages.</p>
+  <p>Si un outil de mesure d’audience devait être ajouté ultérieurement, cette page serait mise à jour et un mécanisme de recueil du consentement serait mis en place avant tout dépôt de traceur soumis à consentement.</p>
 
   <h2>Contact</h2>
-  <p>Pour toute question relative à cette politique ou au traitement de vos données, contactez-nous au ${esc(site.phoneDisplay)}.</p>
+  <p>Pour toute question relative à cette politique ou au traitement de vos données, contactez-nous au <a href="tel:${site.phoneHref}">${esc(site.phoneDisplay)}</a>.</p>
 </div>`,
 })}`,
   });

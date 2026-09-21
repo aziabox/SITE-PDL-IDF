@@ -90,7 +90,10 @@ for (const p of pages) {
     try {
       const data = JSON.parse(raw);
       const s = JSON.stringify(data);
-      for (const forbidden of ['aggregateRating', 'reviewCount', 'ratingValue', 'priceRange', 'openingHours', 'streetAddress']) {
+      // L'adresse provient des registres publics : elle est autorisée.
+      // Les notes, avis, prix et horaires restent interdits tant qu'ils ne
+      // sont pas fournis et vérifiables.
+      for (const forbidden of ['aggregateRating', 'reviewCount', 'ratingValue', 'priceRange', 'openingHours']) {
         if (s.includes(forbidden)) err(route, `donnée structurée non vérifiable : ${forbidden}`);
       }
     } catch (e) {

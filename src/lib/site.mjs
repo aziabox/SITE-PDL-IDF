@@ -16,6 +16,40 @@ export const site = {
   areaServed: 'Île-de-France',
 };
 
+/* Informations legales de l'entreprise (source : registres publics INSEE /
+   RCS de Nanterre). Ne renseigner ici que des donnees verifiables. */
+export const legal = {
+  exploitant: 'Bilal ASSOUL',
+  denomination: 'ASSOUL BILAL',
+  forme: 'Entrepreneur individuel (EI)',
+  siren: '901 133 041',
+  sirenRaw: '901133041',
+  siret: '901 133 041 00011',
+  rcs: '901 133 041 R.C.S. Nanterre',
+  greffe: 'Nanterre',
+  immatriculationRcs: '7 juillet 2021',
+  immatriculationRne: '6 juillet 2021',
+  creation: '6 juillet 2021',
+  adresse: {
+    rue: '1 rue Albert Simonin',
+    codePostal: '92400',
+    ville: 'Courbevoie',
+    pays: 'France',
+    complet: '1 rue Albert Simonin, 92400 Courbevoie',
+  },
+  naf: '81.29A',
+  nafLibelle: 'Désinfection, désinsectisation, dératisation',
+  directeurPublication: 'Bilal ASSOUL',
+};
+
+/* Hebergeur du site */
+export const host = {
+  nom: 'Hostinger International Ltd',
+  adresse: '61 Lordou Vironos Street, Lumiel Building, 4e étage, 6023 Larnaca, Chypre',
+  registre: 'HE 301365',
+  site: 'https://www.hostinger.fr',
+};
+
 export const departments = [
   {
     code: '75', name: 'Paris', slug: 'punaises-de-lit-paris-75',
