@@ -57,6 +57,8 @@ build.mjs               générateur : lit src/content, écrit dist/
 server.mjs              serveur de prévisualisation local
 audit.mjs               audit statique (liens, SEO, a11y, duplication, promesses interdites)
 tools/
+  genmap.mjs            génère src/lib/idf-geo.mjs depuis les contours officiels
+  geodata/              contours départementaux source (IGN / INSEE, Licence Ouverte)
   genimages.mjs         génère l’image Open Graph et l’icône (encodeur PNG maison)
   qa.mjs                contrôles navigateur : débordements, cibles tactiles, JS, interactions
   shot.mjs / shotel.mjs captures d’écran de contrôle
@@ -67,7 +69,8 @@ src/
     layout.mjs          gabarit HTML, en-tête, pied de page, barre d’appel mobile
     components.mjs      briques d’interface (sections, cartes, FAQ, CTA, tableaux…)
     templates.mjs       gabarit des pages « situation / profil / territoire »
-    illustrations.mjs   schémas SVG dessinés pour le site (cycle, thermique, carte IDF…)
+    illustrations.mjs   schémas SVG dessinés pour le site (cycle, thermique…)
+    idf-geo.mjs         GÉNÉRÉ : tracés des départements + cadre de l’encart
     photo.mjs           emplacements photo + génération de PHOTOS.md
     form.mjs            formulaire de demande de diagnostic
     schema.mjs          données structurées Schema.org
@@ -89,6 +92,24 @@ Créer un fichier dans `src/content/pages/`. Il exporte par défaut un objet pag
 (ou une fonction retournant un objet ou un tableau d’objets) produit par
 `definePage()` ou `contentPage()`. Le fil d’ariane, les données structurées,
 le canonical et l’entrée de sitemap sont générés automatiquement.
+
+### Carte de l’Île-de-France
+
+La carte utilise les **contours administratifs réels** (IGN / INSEE, Licence
+Ouverte) et non un schéma : `tools/geodata/*.geojson` → projection Mercator →
+simplification Douglas-Peucker → `src/lib/idf-geo.mjs`.
+
+```bash
+node tools/genmap.mjs   # régénère les tracés (tolérance : constante TOL)
+```
+
+Elle comporte un **encart zoomé sur Paris et la petite couronne** (75, 92, 93,
+94), sans quoi ces départements seraient trop petits pour être cliquables.
+Carte principale et encart partagent la même sélection. Chaque département est
+un lien SVG : la carte reste utilisable au clavier et sans JavaScript.
+
+La mention « Fond de carte : contours administratifs IGN / INSEE — Licence
+Ouverte » doit être conservée sous la carte.
 
 ### Ajouter un article
 

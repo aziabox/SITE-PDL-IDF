@@ -47,55 +47,61 @@
   }
 
   /* --- Carte interactive Ile-de-France ---------------------------------- */
-  var map = document.querySelector('[data-idf-map]');
-  if (map) {
+  var maps = document.querySelectorAll('[data-idf-map]');
+  if (maps.length) {
     var panel = document.querySelector('[data-idf-panel]');
     var data = {};
-    try { data = JSON.parse(map.getAttribute('data-depts') || '{}'); } catch (e) { data = {}; }
+    try { data = JSON.parse(maps[0].getAttribute('data-depts') || '{}'); } catch (e) { data = {}; }
+
+    var check =
+      '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.6 4.4 4.4L19 7.4"/></svg>';
+
     var render = function (code) {
       var d = data[code];
       if (!d || !panel) return;
-      panel.querySelectorAll('[data-idf-map] .idf__dept').forEach(function () {});
       panel.innerHTML =
         '<p class="eyebrow">Département ' + d.code + '</p>' +
         '<h3>Punaises de lit ' + d.article + ' ' + d.name + '</h3>' +
         '<p>' + d.intro + '</p>' +
         '<ul class="idf__services">' +
-        '<li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.6 4.4 4.4L19 7.4"/></svg>Diagnostic et inspection</li>' +
-        '<li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.6 4.4 4.4L19 7.4"/></svg>Détection canine</li>' +
-        '<li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.6 4.4 4.4L19 7.4"/></svg>Traitement thermique</li>' +
-        '<li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.6 4.4 4.4L19 7.4"/></svg>Traitements professionnels adaptés</li>' +
+        '<li>' + check + 'Diagnostic et inspection</li>' +
+        '<li>' + check + 'Détection canine</li>' +
+        '<li>' + check + 'Traitement thermique</li>' +
+        '<li>' + check + 'Traitements professionnels adaptés</li>' +
         '</ul>' +
         '<a class="btn btn--primary btn--sm" href="/' + d.slug + '">Voir la page ' + d.code + '</a>';
     };
-    var clicked = null;
-    var select = function (el) {
-      map.querySelectorAll('.idf__deptlink').forEach(function (p) {
-        p.classList.toggle('is-active', p === el);
+
+    // Carte principale et encart partagent la meme selection.
+    var select = function (code) {
+      document.querySelectorAll('.idf__deptlink').forEach(function (el) {
+        el.classList.toggle('is-active', el.getAttribute('data-code') === code);
       });
-      render(el.getAttribute('data-code'));
+      render(code);
     };
-    map.querySelectorAll('.idf__deptlink').forEach(function (p) {
+
+    var clicked = null;
+    document.querySelectorAll('.idf__deptlink').forEach(function (el) {
+      var code = el.getAttribute('data-code');
       // Sans JavaScript, chaque département reste un lien vers sa page.
-      // Avec JavaScript : survol et focus mettent le panneau à jour ; un
-      // premier clic affiche le département sélectionné, un second ouvre
-      // sa page (le bouton du panneau y mène également).
-      p.addEventListener('mouseenter', function () { select(p); });
-      p.addEventListener('focus', function () { select(p); });
-      p.addEventListener('click', function (e) {
-        // Le survol ayant pu pré-sélectionner le département, on mémorise
-        // le dernier clic plutôt que l'état visuel.
-        if (clicked === p) return;
-        clicked = p;
+      el.addEventListener('mouseenter', function () { select(code); });
+      el.addEventListener('focus', function () { select(code); });
+      el.addEventListener('click', function (e) {
+        // Le survol ayant pu pré-sélectionner le département, on mémorise le
+        // dernier clic plutôt que l'état visuel : premier clic = sélection,
+        // second clic = ouverture de la page départementale.
+        if (clicked === code) return;
+        clicked = code;
         e.preventDefault();
-        select(p);
+        select(code);
         if (panel && window.matchMedia('(max-width: 860px)').matches) {
           panel.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
         }
       });
     });
-    var initial = map.querySelector('.idf__deptlink[data-code="75"]') || map.querySelector('.idf__deptlink');
-    if (initial) { initial.classList.add('is-active'); render(initial.getAttribute('data-code')); }
+
+    select('75');
   }
 
   /* --- Sommaire : mise en evidence de la section lue --------------------- */

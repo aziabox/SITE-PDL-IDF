@@ -2,6 +2,7 @@
    Palette : #173B4D bleu profond, #3E7185 bleu moyen, #DCECF2 bleu glacier,
    #E9E1D4 sable, #F8FAF9 blanc casse. */
 import { departments } from './site.mjs';
+import { MAP_VIEWBOX, INSET_VIEWBOX, INSET_CODES, DEPT_PATHS, DEPT_LABELS } from './idf-geo.mjs';
 import { attr, esc } from './html.mjs';
 
 /* --- Punaise de lit stylisee (vue de dessus) ----------------------------- */
@@ -226,55 +227,45 @@ export const dogScene = () => `
 </svg>`;
 
 /* --- Carte interactive Ile-de-France ------------------------------------- */
-const DEPT_PATHS = {
-  // Carte schematique : les huit departements partagent leurs frontieres.
-  75: 'M424 330 L452 318 L482 330 L490 354 L470 376 L438 376 L418 354 Z',
-  92: 'M455 215 L452 318 L424 330 L418 354 L438 376 L470 376 L470 485 L385 470 L330 405 L322 325 L360 255 Z',
-  93: 'M455 215 L452 318 L482 330 L490 354 L605 375 L600 300 L545 235 Z',
-  94: 'M490 354 L605 375 L560 455 L470 485 L470 376 Z',
-  95: 'M150 250 L330 140 L440 95 L560 110 L622 170 L612 250 L600 300 L545 235 L455 215 L360 255 L322 325 Z',
-  78: 'M150 250 L322 325 L330 405 L385 470 L330 520 L250 560 L170 520 L120 430 L105 330 Z',
-  91: 'M385 470 L470 485 L560 455 L585 520 L560 600 L470 645 L380 635 L320 570 L330 520 Z',
-  77: 'M622 170 L700 150 L780 190 L845 280 L860 380 L850 480 L800 570 L720 610 L640 580 L585 520 L560 455 L605 375 L600 300 L612 250 Z',
-};
-const DEPT_LABELS = {
-  75: [452, 356],
-  92: [366, 372],
-  93: [522, 288],
-  94: [527, 424],
-  95: [466, 178],
-  78: [212, 404],
-  91: [452, 562],
-  77: [742, 384],
-};
 
-export const idfMap = () => `
-<svg class="idf__map" viewBox="88 78 790 590" role="img" aria-label="Carte des huit départements d’Île-de-France" data-idf-map
-     data-depts='${attr(
-       JSON.stringify(
-         Object.fromEntries(
-           departments.map((d) => [
-             d.code,
-             {
-               code: d.code,
-               name: d.name,
-               slug: d.slug,
-               article: d.article === 'à' ? 'à' : d.article,
-               intro: `Interventions ${d.article} ${d.name} : diagnostic, détection canine et traitement adapté aux ${d.habitat}.`,
-             },
-           ])
-         )
-       ).replace(/'/g, '&#39;')
-     )}'>
-  ${departments
-    .map(
-      (d) => `<a class="idf__deptlink" href="/${d.slug}" data-code="${d.code}"
+const deptShape = (d, { labelClass = '' } = {}) => `<a class="idf__deptlink" href="/${d.slug}" data-code="${d.code}"
       aria-label="Punaises de lit ${d.article} ${esc(d.name)} (${d.code})">
       <title>${esc(d.name)} (${d.code}) — voir la page</title>
       <path class="idf__dept" d="${DEPT_PATHS[d.code]}"/>
-      <text class="idf__label" x="${DEPT_LABELS[d.code][0]}" y="${DEPT_LABELS[d.code][1]}" text-anchor="middle">${d.code}</text>
-    </a>`
+      <text class="idf__label ${labelClass}" x="${DEPT_LABELS[d.code][0]}" y="${DEPT_LABELS[d.code][1]}" text-anchor="middle">${d.code}</text>
+    </a>`;
+
+const deptData = attr(
+  JSON.stringify(
+    Object.fromEntries(
+      departments.map((d) => [
+        d.code,
+        {
+          code: d.code,
+          name: d.name,
+          slug: d.slug,
+          article: d.article,
+          intro: `Interventions ${d.article} ${d.name} : diagnostic, détection canine et traitement adapté aux ${d.habitat}.`,
+        },
+      ])
     )
+  ).replace(/'/g, '&#39;')
+);
+
+/* Carte complete des huit departements */
+export const idfMap = () => `
+<svg class="idf__map" viewBox="${MAP_VIEWBOX}" role="img"
+     aria-label="Carte de l’Île-de-France : les huit départements desservis" data-idf-map data-depts='${deptData}'>
+  ${departments.map((d) => deptShape(d, { labelClass: INSET_CODES.includes(d.code) ? 'idf__label--petite' : '' })).join('\n  ')}
+</svg>`;
+
+/* Encart zoome sur Paris et la petite couronne */
+export const idfInset = () => `
+<svg class="idf__insetmap" viewBox="${INSET_VIEWBOX}" role="img"
+     aria-label="Encart : Paris et la petite couronne" data-idf-map data-depts='${deptData}'>
+  ${departments
+    .filter((d) => INSET_CODES.includes(d.code))
+    .map((d) => deptShape(d, { labelClass: 'idf__label--inset' }))
     .join('\n  ')}
 </svg>`;
 

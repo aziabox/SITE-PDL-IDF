@@ -3,7 +3,7 @@ import {
   section, pageHead, quick, faq, ctaBand, checklist, callout, linkGrid,
   btnRow, btnPrimary, btnPhone, esc, departments,
 } from '../../lib/components.mjs';
-import { idfMap, idfPanel } from '../../lib/illustrations.mjs';
+import { idfMap, idfInset, idfPanel } from '../../lib/illustrations.mjs';
 import { service } from '../../lib/schema.mjs';
 import { CITIES } from '../../lib/cities.mjs';
 
@@ -54,7 +54,15 @@ ${section({
   lead: 'Survolez ou sélectionnez un département pour afficher les services disponibles et accéder à sa page dédiée.',
   html: `
 <div class="idf">
-  <div class="idf__mapwrap">${idfMap()}<p class="idf__hint">Carte schématique des huit départements — survolez ou sélectionnez un département pour afficher les services disponibles.</p></div>
+  <div class="idf__mapwrap">
+    <div class="idf__maps">
+      ${idfMap()}
+      <figure class="idf__inset">
+        ${idfInset()}
+        <figcaption>Paris et la petite couronne<br>75 · 92 · 93 · 94</figcaption>
+      </figure>
+    </div>
+    <p class="idf__hint">Survolez ou sélectionnez un département pour afficher les services disponibles. <span class="idf__credit">Fond de carte : contours administratifs IGN / INSEE — Licence Ouverte.</span></p></div>
   ${idfPanel()}
 </div>`,
 })}

@@ -93,20 +93,26 @@ if (!drawerClosed) problems.push('menu mobile : ne se ferme pas avec Échap');
 
 await ip.setViewportSize({ width: 1280, height: 900 });
 await ip.goto('http://localhost:4321/punaises-de-lit-ile-de-france', { waitUntil: 'load' });
-await ip.hover('.idf__deptlink[data-code="93"]');
+// l'encart « petite couronne » pilote la même sélection que la carte principale
+await ip.hover('.idf__insetmap .idf__deptlink[data-code="94"]');
+await ip.waitForTimeout(250);
+if (!/Val-de-Marne/.test((await ip.textContent('[data-idf-panel]')) || '')) problems.push('encart : le survol ne met pas le panneau à jour');
+const syncOk = await ip.evaluate(() => document.querySelectorAll('.idf__deptlink[data-code="94"].is-active').length === 2);
+if (!syncOk) problems.push('encart : sélection non synchronisée avec la carte principale');
+await ip.hover('.idf__map .idf__deptlink[data-code="93"]');
 await ip.waitForTimeout(250);
 const panel = await ip.textContent('[data-idf-panel]');
 if (!/Seine-Saint-Denis/.test(panel || '')) problems.push('carte interactive : le panneau ne se met pas à jour au survol');
 // un premier clic sélectionne sans quitter la page, le second ouvre la page
-await ip.click('.idf__deptlink[data-code="94"]');
+await ip.click('.idf__map .idf__deptlink[data-code="94"]');
 await ip.waitForTimeout(250);
 if (!/Val-de-Marne/.test((await ip.textContent('[data-idf-panel]')) || '')) problems.push('carte interactive : le clic ne sélectionne pas le département');
 if (!/punaises-de-lit-ile-de-france/.test(ip.url())) problems.push('carte interactive : le premier clic quitte la page');
-await ip.click('.idf__deptlink[data-code="94"]');
+await ip.click('.idf__map .idf__deptlink[data-code="94"]');
 await ip.waitForTimeout(400);
 if (!/punaises-de-lit-val-de-marne-94/.test(ip.url())) problems.push('carte interactive : le second clic n’ouvre pas la page du département');
 await ip.goto('http://localhost:4321/punaises-de-lit-ile-de-france', { waitUntil: 'load' });
-const href = await ip.getAttribute('.idf__deptlink[data-code="93"]', 'href');
+const href = await ip.getAttribute('.idf__map .idf__deptlink[data-code="93"]', 'href');
 if (href !== '/punaises-de-lit-seine-saint-denis-93') problems.push('carte interactive : lien départemental incorrect (' + href + ')');
 await ip.keyboard.press('Tab');
 const focusOk = await ip.evaluate(() => !!document.activeElement && document.activeElement !== document.body);

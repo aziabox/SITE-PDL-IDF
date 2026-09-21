@@ -3,7 +3,7 @@ import {
   section, cardGrid, checklist, steps, quick, callout, faq, ctaBand, figure,
   linkGrid, btnRow, btnPrimary, btnPhone, pills, statLine, icon, esc, departments,
 } from '../../lib/components.mjs';
-import { heroPlan, idfMap, idfPanel, hugetriPanel, dogScene, processStrip } from '../../lib/illustrations.mjs';
+import { heroPlan, idfMap, idfInset, idfPanel, hugetriPanel, dogScene, processStrip } from '../../lib/illustrations.mjs';
 import { photo } from '../../lib/photo.mjs';
 import { organization, service } from '../../lib/schema.mjs';
 import { postCard } from '../../lib/blog.mjs';
@@ -215,7 +215,15 @@ ${steps([
     lead: 'Sélectionnez un département pour accéder à sa page dédiée : contexte d’habitat, problématiques rencontrées et services disponibles.',
     html: `
 <div class="idf">
-  <div class="idf__mapwrap">${idfMap()}<p class="idf__hint">Carte schématique des huit départements — survolez ou sélectionnez un département pour afficher les services disponibles.</p></div>
+  <div class="idf__mapwrap">
+    <div class="idf__maps">
+      ${idfMap()}
+      <figure class="idf__inset">
+        ${idfInset()}
+        <figcaption>Paris et la petite couronne<br>75 · 92 · 93 · 94</figcaption>
+      </figure>
+    </div>
+    <p class="idf__hint">Survolez ou sélectionnez un département pour afficher les services disponibles. <span class="idf__credit">Fond de carte : contours administratifs IGN / INSEE — Licence Ouverte.</span></p></div>
   ${idfPanel()}
 </div>
 <ul class="idf__list">

@@ -539,17 +539,74 @@ strong { font-weight: 600; color: var(--c-deep); }
 /* --- 13. Carte Île-de-France --------------------------------------------- */
 .idf { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); gap: clamp(24px, 3vw, 44px); align-items: start; }
 .idf__mapwrap { background: #fff; border: 1px solid var(--c-line-soft); border-radius: var(--r); padding: clamp(14px, 2vw, 24px); }
-.idf__map { width: 100%; height: auto; display: block; }
+.idf__maps { display: grid; grid-template-columns: minmax(0, 1fr) 178px; gap: clamp(12px, 2vw, 22px); align-items: center; }
+.idf__map, .idf__insetmap { width: 100%; height: auto; display: block; }
+
+/* Encart resserré sur Paris et la petite couronne */
+.idf__inset { margin: 0; border: 1px solid var(--c-line-soft); border-radius: var(--r-sm); padding: 10px 10px 8px; background: var(--c-off); }
+.idf__inset figcaption {
+  margin-top: 8px; font-size: 0.68rem; line-height: 1.4; text-align: center; color: var(--c-muted);
+  font-family: var(--ff-title); letter-spacing: 0.04em; text-transform: uppercase;
+}
+
+/* Départements */
 .idf__deptlink { cursor: pointer; outline: none; }
-.idf__dept { fill: #eaf3f7; stroke: #fff; stroke-width: 2; transition: fill 0.18s ease; }
+.idf__dept { fill: #e6f0f5; stroke: #fff; stroke-width: 1.6; stroke-linejoin: round; transition: fill 0.18s ease; }
+.idf__deptlink[data-code='75'] .idf__dept { fill: #d3e5ee; }
 .idf__deptlink:hover .idf__dept,
 .idf__deptlink:focus-visible .idf__dept,
 .idf__deptlink.is-active .idf__dept { fill: var(--c-mid); }
 .idf__deptlink:focus-visible .idf__dept { stroke: var(--c-deep); stroke-width: 3; }
-.idf__label { font-family: var(--ff-title); font-size: 15px; font-weight: 700; fill: var(--c-deep); pointer-events: none; transition: fill 0.18s ease; }
+
+/* Étiquettes : taille exprimée en unités du viewBox, ajustée plus bas */
+.idf__label {
+  font-family: var(--ff-title); font-size: 17px; font-weight: 700; fill: var(--c-deep);
+  pointer-events: none; transition: fill 0.18s ease; paint-order: stroke;
+  stroke: rgba(255, 255, 255, 0.85); stroke-width: 3px; stroke-linejoin: round;
+}
+.idf__label--inset { font-size: 16px; stroke-width: 2.8px; }
 .idf__deptlink:hover .idf__label,
 .idf__deptlink:focus-visible .idf__label,
-.idf__deptlink.is-active .idf__label { fill: #fff; }
+.idf__deptlink.is-active .idf__label { fill: #fff; stroke: rgba(23, 59, 77, 0.45); }
+
+/* La lisibilité dépend de la largeur réellement occupée par la carte, pas de
+   celle de la fenêtre : on interroge donc le conteneur. Les règles @media
+   servent de repli pour les navigateurs sans @container. */
+@media (max-width: 1080px) { .idf__map .idf__label { font-size: 24px; stroke-width: 4px; } }
+@media (max-width: 720px) {
+  .idf__maps { grid-template-columns: 1fr; justify-items: center; }
+  .idf__inset { width: 100%; max-width: 280px; }
+  .idf__map .idf__label { font-size: 30px; stroke-width: 5px; }
+  .idf__map .idf__label--petite { display: none; }
+  .idf__label--inset { font-size: 15px; }
+}
+
+@supports (container-type: inline-size) {
+  .idf__mapwrap { container-type: inline-size; }
+  .idf__maps { grid-template-columns: minmax(0, 1fr) 178px; justify-items: stretch; }
+  .idf__inset { width: auto; max-width: none; }
+  .idf__map .idf__label { font-size: 17px; stroke-width: 3px; }
+  .idf__map .idf__label--petite { display: block; }
+
+  @container (max-width: 900px) {
+    .idf__map .idf__label { font-size: 22px; stroke-width: 4px; }
+  }
+  @container (max-width: 700px) {
+    .idf__maps { grid-template-columns: minmax(0, 1fr) 150px; }
+    .idf__map .idf__label { font-size: 28px; stroke-width: 4.5px; }
+    .idf__label--inset { font-size: 20px; stroke-width: 3.4px; }
+  }
+  @container (max-width: 560px) {
+    .idf__maps { grid-template-columns: 1fr; justify-items: center; }
+    .idf__inset { width: 100%; max-width: 280px; }
+    .idf__map .idf__label { font-size: 30px; stroke-width: 5px; }
+    .idf__label--inset { font-size: 15px; }
+  }
+  @container (max-width: 480px) {
+    .idf__map .idf__label--petite { display: none; }
+  }
+}
+
 .idf__panel { background: #fff; border: 1px solid var(--c-line); border-radius: var(--r); padding: clamp(20px, 2.4vw, 28px); position: sticky; top: 96px; }
 .idf__panel .eyebrow { margin-bottom: 10px; }
 .idf__panel h3 { font-size: 1.32rem; margin-bottom: 10px; }
@@ -830,3 +887,5 @@ h1, h2, h3, h4, p, li, .btn, .pill, .card, .flow__step b, .stat-line b {
   .callbar .btn { font-size: 0.83rem; padding-inline: 8px; gap: 6px; }
   .callbar .btn .icon { width: 16px; height: 16px; }
 }
+
+.idf__credit { display: block; margin-top: 4px; font-size: 0.75rem; color: var(--c-muted); opacity: 0.85; }
