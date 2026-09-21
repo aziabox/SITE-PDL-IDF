@@ -29,10 +29,13 @@ http
       return;
     }
     const ext = path.extname(file);
-    const immutable = /^\/assets\//.test(clean) && ext !== '.html';
+    const isAsset = /^\/assets\//.test(clean) && ext !== '.html';
+    // Les pages HTML sont revalidées à chaque visite : une mise à jour du site
+    // est visible immédiatement après un redéploiement. Les fichiers statiques
+    // (CSS, JS, images) restent en cache.
     res.writeHead(200, {
       'content-type': TYPES[ext] || 'application/octet-stream',
-      'cache-control': immutable ? 'public, max-age=86400' : 'public, max-age=300',
+      'cache-control': isAsset ? 'public, max-age=86400' : 'no-cache, must-revalidate',
       'x-content-type-options': 'nosniff',
       'referrer-policy': 'strict-origin-when-cross-origin',
     });
